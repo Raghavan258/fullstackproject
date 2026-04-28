@@ -185,14 +185,14 @@ export default function Forums() {
               </span>
               <h3 className="thread-title">{t.title}</h3>
               <div className="thread-meta">
-                <span>👤 {t.authorName || t.author}</span>
-                <span>💬 {t.replyCount || 0} replies</span>
+                <span>👤 {t.authorName || t.author?.fullName || t.author?.name || (typeof t.author === 'string' ? t.author : 'Anonymous')}</span>
+                <span>💬 {t.replyCount || t.replies?.length || 0} replies</span>
                 <span
                   style={{ cursor: 'pointer', color: likedIds.has(t.id) ? 'var(--saffron)' : 'inherit', userSelect: 'none' }}
                   onClick={() => handleLike(t.id)}
                   title="Like this discussion"
                 >
-                  {likedIds.has(t.id) ? '❤️' : '🤍'} {t.likeCount || 0} likes
+                  {likedIds.has(t.id) ? '❤️' : '🤍'} {t.likeCount !== undefined ? t.likeCount : t.likes || 0} likes
                 </span>
                 <span>{timeAgo(t.createdAt || new Date().toISOString())}</span>
               </div>
@@ -224,9 +224,9 @@ export default function Forums() {
                   ) : (
                     (replies[t.id] || []).map((r, i) => (
                       <div key={i} style={{ padding: '10px 14px', background: 'var(--bg-glass)', borderRadius: '8px', marginBottom: '8px', fontSize: '0.85rem' }}>
-                        <span style={{ fontWeight: 600 }}>{r.authorName || r.author}</span>
+                        <span style={{ fontWeight: 600 }}>{r.authorName || r.author?.fullName || r.author?.name || (typeof r.author === 'string' ? r.author : 'Anonymous')}</span>
                         <span style={{ color: 'var(--text-muted)', marginLeft: '8px', fontSize: '0.78rem' }}>{timeAgo(r.createdAt)}</span>
-                        <div style={{ marginTop: '6px', color: 'var(--text-body)' }}>{r.content}</div>
+                        <div style={{ marginTop: '6px', color: 'var(--text-body)' }}>{r.content || r.body}</div>
                       </div>
                     ))
                   )}
