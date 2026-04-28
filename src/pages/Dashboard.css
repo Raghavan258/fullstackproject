@@ -1,0 +1,6 @@
+.dashboard-page {
+  padding: 32px 24px 60px;
+  min-height: calc(100vh - 70px);
+  max-width: 1200px;
+  margin: 0 auto;
+}
